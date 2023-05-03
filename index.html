@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Studio</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    AFRAME.registerComponent('drag-rotate-component',{
+      schema : { speed : {default:1}},
+      init : function(){
+        this.ifMouseDown = false;
+        this.x_cord = 0;
+        this.y_cord = 0;
+        document.addEventListener('mousedown',this.OnDocumentMouseDown.bind(this));
+        document.addEventListener('mouseup',this.OnDocumentMouseUp.bind(this));
+        document.addEventListener('mousemove',this.OnDocumentMouseMove.bind(this));
+      },
+      OnDocumentMouseDown : function(event){
+        this.ifMouseDown = true;
+        this.x_cord = event.clientX;
+        this.y_cord = event.clientY;
+      },
+      OnDocumentMouseUp : function(){
+        this.ifMouseDown = false;
+      },
+      OnDocumentMouseMove : function(event)
+      {
+        if(this.ifMouseDown)
+        {
+          var temp_x = event.clientX-this.x_cord;
+          var temp_y = event.clientY-this.y_cord;
+          if(Math.abs(temp_y)<Math.abs(temp_x))
+          {
+            this.el.object3D.rotateY(temp_x*this.data.speed/1000);
+          }
+          else
+          {
+            this.el.object3D.rotateX(temp_y*this.data.speed/1000);
+          }
+          this.x_cord = event.clientX;
+          this.y_cord = event.clientY;
+        }
+      }
+    });
+	
+	AFRAME.registerComponent('cameramove',{
+      
+      init : function(){
+	  
+		 document.addEventListener('wheel',this.OnWheel.bind(this));
+        
+      },
+      OnWheel : function(event){
+        
+		let xyz = this.el.getAttribute('position');
+		if (event.deltaY <0 )
+		{
+			xyz.z += .1; 
+		}
+		else
+		{
+			xyz.z -= 0.1;
+		}
+			
+		//this.el.setAttribute('zvalue', z);
+		this.el.setAttribute('position', xyz);
+		console.log('z = ' + z);
+      }
+	  
+	 
+	  }
+	  
+	  );
+	  
+	  
+	  AFRAME.registerComponent('zoom',{
+      
+      init : function(){
+	  
+		 document.addEventListener('wheel',this.OnWheel.bind(this));
+        
+      },
+      OnWheel : function(event){
+        console.log(event.deltaX + ", " + event.deltaY);
+		let xyz = this.el.getAttribute('scale');
+		if (event.deltaY <0 )
+		{
+			xyz.x += 0.1;
+			xyz.y += 0.1;
+			xyz.z += 0.1;
+		}
+		else
+		{
+			xyz.x -= 0.1;
+			xyz.y -= 0.1;
+			xyz.z -= 0.1;
+		}
+			
+		this.el.setAttribute('scale', xyz);
+		//this.el.setAttribute('position', '0 1 ' + z);
+		//console.log('z = ' + z);
+      }
+	  
+	 
+	  }
+	  
+	  );
+	
+  </script>
+  <a-scene>
+  <a-plane position="0 -1 0" rotation="-90 0 0" width="80" height="80" color="grey"></a-plane>
+    <a-asset-item id="Object" src="StudioModel.glb"> </a-asset-item>
+	<a-entity gltf-model="#Object"> </a-entity>
+    <a-camera position="0 4 20" zvalue="-3" look-controls="enabled:false" wasd-controls="enabled:false">
+    </a-camera>
+  </a-scene>
+  
+</body>
+</html>
