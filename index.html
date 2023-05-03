@@ -5,8 +5,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
 </head>
-<body>
+<body oncontextmenu="return false;">
 <script type="text/javascript">
+
+let click = 0;
+
+
     AFRAME.registerComponent('drag-rotate-component',{
       schema : { speed : {default:1}},
       init : function(){
@@ -21,24 +25,37 @@
         this.ifMouseDown = true;
         this.x_cord = event.clientX;
         this.y_cord = event.clientY;
+		
+		//console.log(event.button);
+		click = event.button;
       },
       OnDocumentMouseUp : function(){
         this.ifMouseDown = false;
       },
       OnDocumentMouseMove : function(event)
       {
-        if(this.ifMouseDown)
+		console.log(event.button)
+	  
+        if(this.ifMouseDown && click == 2 /*event.button == 2*/)
         {
           var temp_x = event.clientX-this.x_cord;
           var temp_y = event.clientY-this.y_cord;
-          if(Math.abs(temp_y)<Math.abs(temp_x))
-          {
-            this.el.object3D.rotateY(temp_x*this.data.speed/1000);
-          }
-          else
-          {
-            this.el.object3D.rotateX(temp_y*this.data.speed/1000);
-          }
+		  
+		   //console.log(temp_x );
+		  
+		 // if (this.el.object3D.rotation._x <= 1.5 /*&& temp_x <0*/)
+		 // {
+			  if(Math.abs(temp_y)<Math.abs(temp_x))
+			  {
+				this.el.object3D.rotateY(temp_x*this.data.speed/1000);
+			  }
+			  else
+			  {
+				this.el.object3D.rotateX(temp_y*this.data.speed/1000);
+			  }
+		 // }
+		  
+		  
           this.x_cord = event.clientX;
           this.y_cord = event.clientY;
         }
@@ -112,8 +129,8 @@
   <a-scene>
   <a-plane position="0 -1 0" rotation="-90 0 0" width="80" height="80" color="grey"></a-plane>
     <a-asset-item id="Object" src="StudioModel.glb"> </a-asset-item>
-	<a-entity gltf-model="#Object"> </a-entity>
-    <a-camera position="0 4 20" zvalue="-3" look-controls="enabled:false" wasd-controls="enabled:false">
+	<a-entity gltf-model="#Object" drag-rotate-component zoom> </a-entity>
+    <a-camera position="0 4 20" zvalue="-3" look-controls="enabled:true" wasd-controls="enabled:true">
     </a-camera>
   </a-scene>
   
