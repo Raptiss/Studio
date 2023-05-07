@@ -1,18 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
+
   <title>Studio</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-</head>
-<body oncontextmenu="return false;">
-<script type="text/javascript">
+<link rel="icon" type="image/png" href="images/favicon.png">
 
-let click = 0;
+ <style>
+      *{
+        cursor: url('images/cursor2.png'), auto;
+      }
+	  
+#toggle-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 9999;
+ background-color: #4CAF50;
+ border: none;
+ padding: 10px 20px;
+ font-size: 16px;
+  border-radius: 20px; 
+    transform-style: preserve-3d;
+    cursor: pointer;
+	 box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+ }
+ 
+#toggle-controls:hover {
+  background-color: #3e8e41; 
+  transform: translateY(-2px) translateZ(0); 
+   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+
+    </style>
+	
+</head>
+<body>
+
+<button id="toggle-controls">Toggle Controls</button>
+
+<body oncontextmenu="return false;">
+
+
+<script type="text/javascript">
+ 
+/* giati de leitourgei
+
+const toggleBtn = document.getElementById('toggle-controls');
+const dragRotateComponent = document.getElementById('drag-rotate-component');
+const cameramoveComponent = document.getElementById('cameramove');
+const zoomComponent = document.getElementById('zoom');
+
+toggleBtn.addEventListener('change', () => {
+  if (toggleBtn.checked) {
+    dragRotateComponent.setAttribute('disabled', true);
+    cameramoveComponent.setAttribute('disabled', true);
+    zoomComponent.setAttribute('disabled', true);
+  } else {
+    dragRotateComponent.removeAttribute('disabled');
+    cameramoveComponent.removeAttribute('disabled');
+    zoomComponent.removeAttribute('disabled');
+  }
+});
+*/
+
+/* giati de leitourgei
+
+button = document.getElementById("toggle-controls");
+
+const dragRotateComponent = document.querySelector('[drag-rotate-component]');
+const cameraMoveComponent = document.querySelector('[cameramove]');
+const zoomComponent = document.querySelector('[zoom]');
+
+button.addEventListener("click", function() {
+	console.log("patithike!");
+ 
+  
+  dragRotateComponent.setAttribute('enabled', isEnabled);
+  cameraMoveComponent.setAttribute('enabled', isEnabled);
+  zoomComponent.setAttribute('enabled', isEnabled);
+  
+});
+
+*/ 
+
+<!-- elegxos patimatos koumpiou -->
+const button = document.getElementById("toggle-controls");
+
+button.addEventListener("click", function() {
+  console.log("patithike!");
+}); 
 
 
     AFRAME.registerComponent('drag-rotate-component',{
-      schema : { speed : {default:1}},
+      schema : { speed : {default:2.4}},
       init : function(){
         this.ifMouseDown = false;
         this.x_cord = 0;
@@ -25,37 +108,21 @@ let click = 0;
         this.ifMouseDown = true;
         this.x_cord = event.clientX;
         this.y_cord = event.clientY;
-		
-		//console.log(event.button);
-		click = event.button;
       },
       OnDocumentMouseUp : function(){
         this.ifMouseDown = false;
       },
       OnDocumentMouseMove : function(event)
       {
-		console.log(event.button)
-	  
-        if(this.ifMouseDown && click == 2 /*event.button == 2*/)
+        if(this.ifMouseDown)
         {
           var temp_x = event.clientX-this.x_cord;
           var temp_y = event.clientY-this.y_cord;
-		  
-		   //console.log(temp_x );
-		  
-		 // if (this.el.object3D.rotation._x <= 1.5 /*&& temp_x <0*/)
-		 // {
-			  if(Math.abs(temp_y)<Math.abs(temp_x))
-			  {
-				this.el.object3D.rotateY(temp_x*this.data.speed/1000);
-			  }
-			  else
-			  {
-				this.el.object3D.rotateX(temp_y*this.data.speed/1000);
-			  }
-		 // }
-		  
-		  
+          if(Math.abs(temp_y)<Math.abs(temp_x))
+          {
+            this.el.object3D.rotateY(temp_x*this.data.speed/1000);
+          }
+          
           this.x_cord = event.clientX;
           this.y_cord = event.clientY;
         }
@@ -90,32 +157,42 @@ let click = 0;
 	  }
 	  
 	  );
-	  
+	  	  
 	  
 	  AFRAME.registerComponent('zoom',{
+	  
+
       
       init : function(){
 	  
+	    this.minScale = 0.7;
+		this.maxScale = 1.8;
+		
 		 document.addEventListener('wheel',this.OnWheel.bind(this));
         
       },
       OnWheel : function(event){
+	  
         console.log(event.deltaX + ", " + event.deltaY);
 		let xyz = this.el.getAttribute('scale');
-		if (event.deltaY <0 )
+		
+		if (event.deltaY <0 && xyz.x < this.maxScale && xyz.y < this.maxScale && xyz.z < this.maxScale)
 		{
-			xyz.x += 0.1;
-			xyz.y += 0.1;
-			xyz.z += 0.1;
+			xyz.x += 0.05;
+			xyz.y += 0.05;
+			xyz.z += 0.05;
+
 		}
-		else
+		else if(event.deltaY > 0 && xyz.x > this.minScale && xyz.y > this.minScale && xyz.z > this.minScale)
 		{
-			xyz.x -= 0.1;
-			xyz.y -= 0.1;
-			xyz.z -= 0.1;
+			xyz.x -= 0.05;
+			xyz.y -= 0.05;
+			xyz.z -= 0.05;
 		}
 			
 		this.el.setAttribute('scale', xyz);
+		
+
 		//this.el.setAttribute('position', '0 1 ' + z);
 		//console.log('z = ' + z);
       }
@@ -125,13 +202,40 @@ let click = 0;
 	  
 	  );
 	
+	
   </script>
+  
   <a-scene>
-  <a-plane position="0 -1 0" rotation="-90 0 0" width="80" height="80" color="grey"></a-plane>
-    <a-asset-item id="Object" src="StudioModel.glb"> </a-asset-item>
-	<a-entity gltf-model="#Object" drag-rotate-component zoom> </a-entity>
-    <a-camera position="0 4 20" zvalue="-3" look-controls="enabled:true" wasd-controls="enabled:true">
-    </a-camera>
+  
+<a-assets>
+  <audio id="music" src="sounds/generalsound.mp3" preload="auto" ></audio>
+  <img id="gradient" src="images/gradient.png">
+   <img id="sky" src="https://cdn.aframe.io/a-painter/images/sky.jpg"> <!-- ChatGpt=Make a nicer sky-->
+</a-assets>
+
+<a-entity sound="src:#music" volume="0.5"></a-entity>
+
+
+<a-sphere material="src:#moon; color: white; roughness: 1; metalness: 0.1"
+          position="-40 35 -30"
+          radius="2"
+          animation="property: rotation; from: 0 0 0; to: 0 360 0; loop: true;  dur: 35000; easing:linear;">
+    <a-img id="moon" src="images/moon.jpg"></a-img>
+</a-sphere>
+
+
+   <a-sky src="#sky" scale="1 1 1" position="0 20 0"></a-sky>
+
+  <a-plane material="src:#gradient" position="0 0 0" rotation="-90 0 0" width="120" height="30" color="lightgrey" metalness="0.4"></a-plane>  
+    <a-asset-item id="Object" src="StudioModel.glb"> </a-asset-item> 
+	<a-entity  gltf-model="#Object" animation="property: rotation; to: 0 40 0; dur: 1300; easing: easeOutCubic;" drag-rotate-component zoom  > </a-entity>
+    <a-camera position="0 6 17" zvalue="-3" look-controls="enabled:false" wasd-controls="enabled:false">
+	</a-camera>
+	
+<a-light type="ambient" color="#fff" intensity="0.6" castShadow="true"></a-light>
+
+<a-light type="ambient" color="#888" intensity="1.5" castShadow="true"></a-light>
+
   </a-scene>
   
 </body>
