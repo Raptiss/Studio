@@ -14,31 +14,35 @@
 	  
 #toggle-controls {
   position: absolute;
-  top: 10px;
+  top: 15px;
   right: 10px;
   z-index: 9999;
- background-color: #4CAF50;
- border: none;
- padding: 10px 20px;
- font-size: 16px;
-  border-radius: 20px; 
-    transform-style: preserve-3d;
-    cursor: pointer;
-	 box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
- }
- 
-#toggle-controls:hover {
-  background-color: #3e8e41; 
-  transform: translateY(-2px) translateZ(0); 
-   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+  background-color: #4CAF50;
+  background-image: linear-gradient(to bottom right, #4CAF50, #2E8B57);
+  border: 2px solid #2E8B57;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 30px;
+  font-family: 'Open Sans', sans-serif;
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2), 0px 0px 10px 2px #4CAF50;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+#toggle-controls:hover {
+  background-color: #3e8e41;
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5), 0px 0px 20px 5px #4CAF50;
+}
 
     </style>
 	
 	
 	<script>
-let controlsEnabled = false;
+let controlsEnabled = true;
 let obj;
  
  function initScene()
@@ -93,7 +97,7 @@ let obj;
 <body oncontextmenu="return false;" onload="initScene();">
 
 
-<button id="toggle-controls" onclick="clicked();">Toggle Controls</button>
+<button id="toggle-controls" onclick="clicked();">Enable</button>
 
 
  
@@ -172,7 +176,7 @@ let obj;
       
       init : function(){
 	  
-	    this.minScale = 0.7;
+	    this.minScale = 0.9;
 		this.maxScale = 1.8;
 		
 		 document.addEventListener('wheel',this.OnWheel.bind(this));
@@ -217,15 +221,15 @@ let obj;
 <a-assets>
   <audio id="music" src="sounds/generalsound.mp3" preload="auto" ></audio>
   <img id="gradient" src="images/gradient.png">
-   <img id="sky" src="https://cdn.aframe.io/a-painter/images/sky.jpg"> <!-- ChatGpt=Make a nicer sky-->
+   <img id="sky" src="https://cdn.aframe.io/a-painter/images/sky.jpg"> <!-- ChatGpt(Prompt=Make a nicer sky)-->
 </a-assets>
 
 <a-entity sound="src:#music" volume="0.5"></a-entity>
 
 
 <a-sphere material="src:#moon; color: white; roughness: 1; metalness: 0.1"
-          position="-40 35 -30"
-          radius="2"
+          position="-180 135 -230"
+          radius="10"
           animation="property: rotation; from: 0 0 0; to: 0 360 0; loop: true;  dur: 35000; easing:linear;">
     <a-img id="moon" src="images/moon.jpg"></a-img>
 </a-sphere>
@@ -233,10 +237,14 @@ let obj;
 
    <a-sky src="#sky" scale="1 1 1" position="0 20 0"></a-sky>
 
-  <a-plane material="src:#gradient" position="0 0 0" rotation="-90 0 0" width="120" height="30" color="lightgrey" metalness="0.4"></a-plane>  
-    <a-asset-item id="Object" src="StudioModel.glb"> </a-asset-item> 
-	<a-entity id="interactable-obj"  gltf-model="#Object" animation="property: rotation; to: 0 40 0; dur: 1300; easing: easeOutCubic;" drag-rotate-component zoom > </a-entity>
-    <a-camera id="player" position="0 6 17" zvalue="-3" look-controls="enabled:true" wasd-controls="enabled:true">
+  <a-plane material="src:#gradient" position="0 0 0" rotation="-90 0 0" width="380" height="430" color="lightgrey" metalness="0.3">
+  <a-text value="Drag my Studio to explore!" color="#004d39" align="center" position="-14 -3 2" scale="4.5 4.5 4.5" rotation="40 0 0"></a-text>
+  <a-text value="Scroll in it to zoom!" color="#008060" align="center" position="-10 -7 2" scale="3.5 3.5 3.5" rotation="40 0 0"></a-text>
+   <a-text value="Enable the button to walk!" color="#009973" align="center" position="-8 -9.5 2" scale="2.5 2.5 2.5" rotation="40 0 0"></a-text>
+</a-plane> 
+    <a-asset-item id="Object" src="StudioModel2.glb" > </a-asset-item> 
+	<a-entity scale="1.15 1.15 1.15" id="interactable-obj"  gltf-model="#Object" animation="property: rotation; to: 0 40 0; dur: 2500; easing: easeOutCubic;" drag-rotate-component zoom > </a-entity>
+    <a-camera id="player" position="0 6 17" zvalue="-3" look-controls="enabled:false" wasd-controls="enabled:false">
 	</a-camera>
 	
 <a-light type="ambient" color="#fff" intensity="0.6" castShadow="true"></a-light>
