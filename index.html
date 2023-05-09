@@ -3,7 +3,7 @@
 <head>
 
   <title>Studio</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
   <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
 <link rel="icon" type="image/png" href="images/favicon.png">
 
@@ -36,62 +36,69 @@
 
     </style>
 	
-</head>
-<body>
-
-<button id="toggle-controls">Toggle Controls</button>
-
-<body oncontextmenu="return false;">
-
-
-<script type="text/javascript">
+	
+	<script>
+let controlsEnabled = false;
+let obj;
  
-/* giati de leitourgei
+ function initScene()
+ {
+	obj = document.getElementById('interactable-obj');
+	
+	//const button = document.getElementById("toggle-controls");
 
-const toggleBtn = document.getElementById('toggle-controls');
-const dragRotateComponent = document.getElementById('drag-rotate-component');
-const cameramoveComponent = document.getElementById('cameramove');
-const zoomComponent = document.getElementById('zoom');
 
-toggleBtn.addEventListener('change', () => {
-  if (toggleBtn.checked) {
-    dragRotateComponent.setAttribute('disabled', true);
-    cameramoveComponent.setAttribute('disabled', true);
-    zoomComponent.setAttribute('disabled', true);
-  } else {
-    dragRotateComponent.removeAttribute('disabled');
-    cameramoveComponent.removeAttribute('disabled');
-    zoomComponent.removeAttribute('disabled');
-  }
-});
-*/
-
-/* giati de leitourgei
-
-button = document.getElementById("toggle-controls");
-
-const dragRotateComponent = document.querySelector('[drag-rotate-component]');
-const cameraMoveComponent = document.querySelector('[cameramove]');
-const zoomComponent = document.querySelector('[zoom]');
-
-button.addEventListener("click", function() {
-	console.log("patithike!");
+ }
  
+ 
+ function clicked()
+ {
+	//button.addEventListener("click", function() {
+  //console.log("patithike!");
   
-  dragRotateComponent.setAttribute('enabled', isEnabled);
-  cameraMoveComponent.setAttribute('enabled', isEnabled);
-  zoomComponent.setAttribute('enabled', isEnabled);
-  
-});
-
-*/ 
+	  if ( !controlsEnabled )
+	  {
+		controlsEnabled = true; 
+		
+		document.getElementById('player').setAttribute('wasd-controls', {enabled:'false'});
+		document.getElementById('player').setAttribute('look-controls', {enabled:'false'});
+	  }
+	  else
+	  {
+		controlsEnabled = false; 
+		document.getElementById('player').setAttribute('wasd-controls', {enabled:'true'});
+		document.getElementById('player').setAttribute('look-controls', {enabled:'true'});
+	  }
+	  
+		
+	
+ }
+ 
+ 
 
 <!-- elegxos patimatos koumpiou -->
-const button = document.getElementById("toggle-controls");
 
-button.addEventListener("click", function() {
-  console.log("patithike!");
-}); 
+
+</script> 
+
+	
+</head>
+
+
+
+<body>
+
+
+
+<body oncontextmenu="return false;" onload="initScene();">
+
+
+<button id="toggle-controls" onclick="clicked();">Toggle Controls</button>
+
+
+ 
+ 
+<script>
 
 
     AFRAME.registerComponent('drag-rotate-component',{
@@ -114,7 +121,7 @@ button.addEventListener("click", function() {
       },
       OnDocumentMouseMove : function(event)
       {
-        if(this.ifMouseDown)
+        if(this.ifMouseDown && controlsEnabled)
         {
           var temp_x = event.clientX-this.x_cord;
           var temp_y = event.clientY-this.y_cord;
@@ -205,7 +212,7 @@ button.addEventListener("click", function() {
 	
   </script>
   
-  <a-scene>
+  <a-scene id="my-scene">
   
 <a-assets>
   <audio id="music" src="sounds/generalsound.mp3" preload="auto" ></audio>
@@ -228,8 +235,8 @@ button.addEventListener("click", function() {
 
   <a-plane material="src:#gradient" position="0 0 0" rotation="-90 0 0" width="120" height="30" color="lightgrey" metalness="0.4"></a-plane>  
     <a-asset-item id="Object" src="StudioModel.glb"> </a-asset-item> 
-	<a-entity  gltf-model="#Object" animation="property: rotation; to: 0 40 0; dur: 1300; easing: easeOutCubic;" drag-rotate-component zoom  > </a-entity>
-    <a-camera position="0 6 17" zvalue="-3" look-controls="enabled:false" wasd-controls="enabled:false">
+	<a-entity id="interactable-obj"  gltf-model="#Object" animation="property: rotation; to: 0 40 0; dur: 1300; easing: easeOutCubic;" drag-rotate-component zoom > </a-entity>
+    <a-camera id="player" position="0 6 17" zvalue="-3" look-controls="enabled:true" wasd-controls="enabled:true">
 	</a-camera>
 	
 <a-light type="ambient" color="#fff" intensity="0.6" castShadow="true"></a-light>
@@ -239,4 +246,8 @@ button.addEventListener("click", function() {
   </a-scene>
   
 </body>
+
+
+
+
 </html>
