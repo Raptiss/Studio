@@ -3,9 +3,9 @@
 <head>
 
   <title>Studio</title>
-  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
      <script src='aframe.min.js'></script>
-	 
+	 <script src="https://unpkg.com/aframe-animation-component@^4.1.2/dist/aframe-animation-component.min.js"></script> 
+	
 <link rel="icon" type="image/png" href="images/favicon.png">
 
  <style>
@@ -92,7 +92,14 @@ let obj;
 
 
 <body>
+<!-- loader -->
 
+<div class="loader">
+	<span></span>
+	<span></span>
+	<span></span>
+	<span></span>
+</div>	
 
 
 <body oncontextmenu="return false;" onload="initScene();">
@@ -278,6 +285,16 @@ AFRAME.registerComponent('zoom-poster',
   
   <a-scene id="my-scene">
    
+   
+   
+   <a-assets>
+    <a-asset-item id="Logo" src="StudioLogoAnimated.glb" > </a-asset-item> 
+  </a-assets>
+  
+  <a-entity position= "0 3 0"scale="1 1 1" id="Logo"  gltf-model="#Logo"  animation="property: rotation; to: 0 -360 0; dur: 25000; easing: linear; loop:true;">
+   </a-entity>
+   
+   
    <a-camera id="player" position="0 6 17" cursor="rayOrigin:mouse;" zvalue="-3" look-controls="enabled:false" wasd-controls="enabled:false">
 	</a-camera>
 	
@@ -291,7 +308,7 @@ AFRAME.registerComponent('zoom-poster',
 
 
 <!-- Feggari -->
-<a-sphere material="src:#moon; color: white; roughness: 1; metalness: 0.1"
+<a-sphere material="src:#moon; color:  #878686; roughness: 1; metalness: 0.1"
           position="-180 135 -230"
           radius="10"
           animation="property: rotation; from: 0 0 0; to: 0 360 0; loop: true;  dur: 35000; easing:linear;">
@@ -299,16 +316,15 @@ AFRAME.registerComponent('zoom-poster',
 </a-sphere>
 
 
+
    <a-sky src="#sky" scale="1 1 1" position="0 20 0" animation="property: rotation; to: 0 30 0; dur: 95500; easing: easeOutCubic;" ></a-sky>
 
   <a-plane material="src:#gradient" position="0 0 0" rotation="-90 0 0" width="380" height="430" color="lightgrey" metalness="0.3">
-  <a-text value="Drag my Studio to explore!" color="#004d39" align="center" position="-14 -3 2" scale="4.5 4.5 4.5" rotation="40 0 0" ></a-text>
-  <a-text value="Scroll in it to zoom!" color="#008060" align="center" position="-10 -7 2" scale="3.5 3.5 3.5" rotation="40 0 0"></a-text>
-   <a-text value="Enable the button to walk!" color="#009973" align="center" position="-8 -9.5 2" scale="2.5 2.5 2.5" rotation="40 0 0"></a-text>
+  
 </a-plane> 
 	<a-assets>
-    <a-asset-item id="Object" src="StudioModelWithoutFloor.glb" > </a-asset-item> 
-	<a-asset-item id="Object2" src="StudioFloor.glb" > </a-asset-item> 
+    <a-asset-item id="Object" src="StudioModel.glb" > </a-asset-item> 
+	<a-asset-item id="Object2" src="StudioFloor3d.glb" > </a-asset-item> 
 	</a-assets>
 	<a-entity scale="1.15 1.15 1.15" id="interactable-obj"  gltf-model="#Object"  animation="property: rotation; to: 0 40 0; dur: 2500; easing: easeOutCubic;"  drag-rotate-component zoom>
 	<a-entity gltf-model="#Object2" >
@@ -348,37 +364,238 @@ AFRAME.registerComponent('zoom-poster',
 	  
 	  <!-- panw monitors -->
 	 
-      <a-plane animation="property: scale; startEvents: click; easing: easeOutElastic; to: 2.3 2.3 2.3" 
-	           animation__2="property: position; startEvents: click; easing: easeOutElastic; to: -8.35 5 0" 
-			   scale="1 1 1" position="-5.35 5.85 2.56" rotation="0 -90 0" width="1.35" height="2.1" material="src: images/Pic1.jpg;" id="image-plane" 
-	           ></a-plane>
-	  <a-plane scale="1 1 1" position="-5.35 5.85 0.84" rotation="0 -90 0" width="1.35" height="2.1" material="src: images/Pic1.jpg;" id="image-plane"></a-plane>
-	  <a-plane scale="1 1 1" position="-5.35 5.85 -0.88" rotation="0 -90 0" width="1.35" height="2.1" material="src: images/Pic1.jpg;" id="image-plane"></a-plane>
-	  <a-plane scale="1 1 1" position="-5.35 5.85 -2.57" rotation="0 -90 0" width="1.35" height="2.1" material="src: images/Pic1.jpg;" id="image-plane"></a-plane>
+   <a-plane id="image-plane"
+             position="-5.35 5.85 2.56"
+             rotation="0 -90 0"
+             width="1.35"
+             height="2.1"
+             material="src: images/Pic1.jpg;">
+    </a-plane>
+	  <a-plane id="image-plane2" scale="1 1 1" position="-5.35 5.85 0.84" rotation="0 -90 0" width="1.35" height="2.1" material="src: images/Pic2.jpg;"  ></a-plane>
+	  <a-plane id="image-plane3" scale="1 1 1" position="-5.35 5.85 -0.88" rotation="0 -90 0" width="1.50" height="2.1" material="src: images/Pic3.jpg;" ></a-plane>
+	  <a-plane id="image-plane4" scale="1 1 1" position="-5.35 5.85 -2.57" rotation="0 -90 0" width="1.35" height="2.1" material="src: images/Pic4.jpg;" ></a-plane>
 	  <!-- katw monitors -->
-	  <a-plane scale="1 1 1" position="-5.35 2.86 2.56" rotation="0 -90 0" width="1.35" height="2.1" material="src: images/Pic1.jpg;" id="image-plane"></a-plane>
-	  <a-plane scale="1 1 1" position="-5.35 2.86 0.84" rotation="0 -90 0" width="1.35" height="2.1" material="src: images/Pic1.jpg;" id="image-plane"></a-plane>
-	  <a-plane scale="1 1 1" position="-5.35 2.86 -0.88" rotation="0 -90 0" width="1.35" height="2.1" material="src: images/Pic1.jpg;" id="image-plane"></a-plane>
-	  <a-plane scale="1 1 1" position="-5.35 2.86 -2.57" rotation="0 -90 0" width="1.35" height="2.1" material="src: images/Pic1.jpg;" id="image-plane"></a-plane>
-	<!-- arcade -->
-	 <a-plane scale="1 1 1" position="-3.5 4 -4.4" rotation="-30 -180 0" width="1.3" height="1.4" material="src: images/Pic1.jpg;" id="image-plane"></a-plane>
-	 
-	 
-	 
-	 
-	
-	
+	  <a-plane id="image-plane5" scale="1 1 1" position="-5.35 2.86 2.56" rotation="0 -90 0" width="1.35" height="2.1" material="src: images/Pic5.jpg;" ></a-plane>
+	  <a-plane id="image-plane6" scale="1 1 1" position="-5.35 2.86 0.84" rotation="0 -90 0" width="1.35" height="2.1" material="src: images/Pic6.jpg;" ></a-plane>
+	  <a-plane id="image-plane7" scale="1 1 1" position="-5.35 2.86 -0.88" rotation="0 -90 0" width="1.35" height="2.1" material="src: images/Pic7.jpg;"></a-plane>
+	  <a-plane id="image-plane8" scale="1 1 1" position="-5.35 2.86 -2.57" rotation="0 -90 0" width="1.35" height="2.1" material="src: images/Pic8.jpg;" ></a-plane>
+	 <!-- arcade -->
+	 <a-plane src= "Video/Video1.mp4" scale="1 1 1" position="-3.53 3.980 -4.375" rotation="-26.256 -179.982 -0.040" width="1.2" height="1.5"  ></a-plane>
+	 <!-- 2nd Wall panw -->
+	 <a-plane id="image-plane2" scale="1 1 1" position="4.75 5.79 1.33" rotation="0 90 0" width="1.15" height="1.8" material="src: images/Pic9.jpg;"  ></a-plane>
+	 <a-plane id="image-plane2" scale="1 1 1" position="4.75 5.79 -0.02" rotation="0 90 0" width="1.15" height="1.8" material="src: images/Pic10.jpg;"  ></a-plane>
+	 <a-plane id="image-plane2" scale="1 1 1" position="4.75 5.79 -1.38" rotation="0 90 0" width="1.15" height="1.8" material="src: images/Pic11.jpg;"  ></a-plane>
+	 <!-- 2nd Wall mesaio -->
+	 <a-plane id="image-plane2" scale="1 1 1" position="4.75 3.78 1.33" rotation="0 90 0" width="1.15" height="1.7" material="src: images/Pic12.jpg;"  ></a-plane>
+	 <a-plane id="image-plane2" scale="1 1 1" position="4.75 3.78 -0.02" rotation="0 90 0" width="1.15" height="1.7" material="src: images/Ams1.jpg;"  ></a-plane>
+	 <a-plane id="image-plane2" scale="1 1 1" position="4.75 3.78 -1.38" rotation="0 90 0" width="1.15" height="1.7" material="src: images/Ams2.jpg;"  ></a-plane>
+	<!-- 2nd Wall teleftaio-->
+	<a-plane id="image-plane2" scale="1 1 1" position="4.75 1.74 1.33" rotation="0 90 0" width="1.15" height="1.68" material="src: images/Pic15.jpg;"  ></a-plane>
+	<a-plane id="image-plane2" scale="1 1 1" position="4.75 1.74 -0.02" rotation="0 90 0" width="1.15" height="1.68" material="src: images/Middle.jpg;"  ></a-plane>
+	<a-plane id="image-plane2" scale="1 1 1" position="4.75 1.74 -1.38" rotation="0 90 0" width="1.15" height="1.68" material="src: images/Pic17.jpg;"  ></a-plane>
 	
 	</a-entity>
 	
-   
+     <a-entity position="4 3 -5">
+        <a-light type="spot" color="#00f5ff" intensity="1" distance="10" decay="2" angle="60" penumbra="0.2" castShadow="true"></a-light>
+      </a-entity>
+
+      <!-- Fill Teal Light from the Left -->
+      <a-entity position="-4 3 -5">
+        <a-light type="spot" color="#00f5ff" intensity="1" distance="10" decay="1" angle="45" penumbra="0.1" castShadow="true"></a-light>
+      </a-entity>
 	
-<a-light type="ambient" color="#fff" intensity="0.6" castShadow="true"></a-light>
+<a-light type="ambient" color="#fff" intensity="0.5" castShadow="true"></a-light>
 
-<a-light type="ambient" color="#888" intensity="1.5" castShadow="true"></a-light>
+<a-light type="ambient" color="#888" intensity="1" castShadow="true"></a-light>
 
+  <a-light type="point" color="#ffffff" intensity="1" position="-4 1 0"></a-light>
+  <a-light type="point" color="#ffffff" intensity="1" position="4 1 0"></a-light>
   </a-scene>
   
+<script>
+    // 1o
+    const plane = document.querySelector('#image-plane');
+
+    
+    let isPlaneInOriginalPosition = true;
+
+    
+    function handleClick() {
+      if (isPlaneInOriginalPosition) {
+        
+        plane.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 2.3 2.3 2.3; dur: 1000');
+        plane.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -8.35 5 0; dur: 1000');
+      } else {
+        
+        plane.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 1 1 1; dur: 1000');
+        plane.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -5.35 5.85 2.56; dur: 1000');
+      }
+
+     
+      isPlaneInOriginalPosition = !isPlaneInOriginalPosition;
+    }
+
+   
+    plane.addEventListener('click', handleClick);
+  </script>
+
+<script>
+  // 2o
+  const plane2 = document.querySelector('#image-plane2');
+
+  
+  let isPlaneInOriginalPosition2 = true;
+
+  
+  function handleClick2() {
+    if (isPlaneInOriginalPosition2) {
+      
+      plane2.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 2.3 2.3 2.3; dur: 1000');
+      plane2.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -8.35 5 0; dur: 1000');
+    } else {
+     
+      plane2.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 1 1 1; dur: 1000');
+      plane2.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -5.35 5.85 0.84; dur: 1000');
+    }
+
+    
+    isPlaneInOriginalPosition2 = !isPlaneInOriginalPosition2;
+  }
+
+ 
+  plane2.addEventListener('click', handleClick2);
+</script>
+  
+  <script>
+  // 3o
+  const plane3 = document.querySelector('#image-plane3');
+
+
+  let isPlaneInOriginalPosition3 = true;
+
+
+  function handleClick3() {
+    if (isPlaneInOriginalPosition3) {
+     
+      plane3.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 2.3 2.3 2.3; dur: 1000');
+      plane3.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -8.35 5 0; dur: 1000');
+    } else {
+      
+      plane3.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 1 1 1; dur: 1000');
+      plane3.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -5.35 5.85 -0.88; dur: 1000');
+    }
+
+   
+    isPlaneInOriginalPosition3 = !isPlaneInOriginalPosition3;
+  }
+
+  
+  plane3.addEventListener('click', handleClick3);
+</script>
+
+  <script>
+   // 4o
+  const plane4 = document.querySelector('#image-plane4');
+  let isPlaneInOriginalPosition4 = true;
+
+  function handleClick4() {
+    if (isPlaneInOriginalPosition4) {
+      plane4.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 2.3 2.3 2.3; dur: 1000');
+      plane4.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -8.35 5 0; dur: 1000');
+    } else {
+      plane4.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 1 1 1; dur: 1000');
+      plane4.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -5.35 5.85 -2.57; dur: 1000');
+    }
+    isPlaneInOriginalPosition4 = !isPlaneInOriginalPosition4;
+  }
+
+  plane4.addEventListener('click', handleClick4);
+</script>
+  
+  <script>
+  // 5o
+  const plane5 = document.querySelector('#image-plane5');
+  let isPlaneInOriginalPosition5 = true;
+
+  function handleClick5() {
+    if (isPlaneInOriginalPosition5) {
+      plane5.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 2.3 2.3 2.3; dur: 1000');
+      plane5.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -8.35 5 0; dur: 1000');
+    } else {
+      plane5.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 1 1 1; dur: 1000');
+      plane5.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -5.35 2.86 2.56; dur: 1000');
+    }
+    isPlaneInOriginalPosition5 = !isPlaneInOriginalPosition5;
+  }
+
+  plane5.addEventListener('click', handleClick5);
+</script>
+  
+  <script>
+  // 6o
+  const plane6 = document.querySelector('#image-plane6');
+  let isPlaneInOriginalPosition6 = true;
+
+  function handleClick6() {
+    if (isPlaneInOriginalPosition6) {
+      plane6.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 2.3 2.3 2.3; dur: 1000');
+      plane6.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -8.35 5 0; dur: 1000');
+    } else {
+      plane6.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 1 1 1; dur: 1000');
+      plane6.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -5.35 2.86 0.84; dur: 1000');
+    }
+    isPlaneInOriginalPosition6 = !isPlaneInOriginalPosition6;
+  }
+
+  plane6.addEventListener('click', handleClick6);
+</script>
+  
+  <script>
+  // 7o
+  const plane7 = document.querySelector('#image-plane7');
+  let isPlaneInOriginalPosition7 = true;
+
+  function handleClick7() {
+    if (isPlaneInOriginalPosition7) {
+      plane7.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 2.3 2.3 2.3; dur: 1000');
+      plane7.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -8.35 5 0; dur: 1000');
+    } else {
+      plane7.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 1 1 1; dur: 1000');
+      plane7.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -5.35 2.86 -0.88; dur: 1000');
+    }
+    isPlaneInOriginalPosition7 = !isPlaneInOriginalPosition7;
+  }
+
+  plane7.addEventListener('click', handleClick7);
+</script>
+  
+  <script>
+  // 8o
+  const plane8 = document.querySelector('#image-plane8');
+  let isPlaneInOriginalPosition8 = true;
+
+  function handleClick8() {
+    if (isPlaneInOriginalPosition8) {
+      plane8.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 2.3 2.3 2.3; dur: 1000');
+      plane8.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -8.35 5 0; dur: 1000');
+    } else {
+      plane8.setAttribute('animation__scale', 'property: scale; easing: easeOutElastic; to: 1 1 1; dur: 1000');
+      plane8.setAttribute('animation__position', 'property: position; easing: easeOutElastic; to: -5.35 2.86 -2.57; dur: 1000');
+    }
+    isPlaneInOriginalPosition8 = !isPlaneInOriginalPosition8;
+  }
+
+  plane8.addEventListener('click', handleClick8);
+</script>
+  
+ 
+  </a-entity>
+  
+ 
+  
+ 
+   
 </body>
 
 
